@@ -1,0 +1,60 @@
+# ════════════════════════════════════════════════════════════════
+# TextToVideo Agent — GitHub 上传用 .gitignore
+# 重点：真实密钥（火山方舟 / 即梦 / 可灵 等的 API Key）只存在于 *.env，
+#       本文件将其排除，只保留 .env.example 模板。
+# ════════════════════════════════════════════════════════════════
+
+# ───────────── 密钥 / 环境变量（绝不可提交） ─────────────
+# 真实 Key 在 backend/.env、frontend/.env；只提交带占位符的 .env.example
+.env
+.env.*
+!.env.example
+
+# ───────────── Python ─────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+pip-wheel-metadata/
+
+# ───────────── 数据库（运行时生成） ─────────────
+*.db
+*.sqlite3
+*.sqlite
+
+# ───────────── 后端生成的媒体文件（图片/音频/视频，体积大） ─────────────
+backend/media/
+
+# ───────────── Node / 前端 ─────────────
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ───────────── 日志 ─────────────
+*.log
+
+# ───────────── 操作系统 / 编辑器 ─────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ───────────── 临时 / 缓存 ─────────────
+.cache/
+.tmp/
+*.bak

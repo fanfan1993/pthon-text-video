@@ -1,0 +1,54 @@
+# 本地 Docker 部署：web(API) + worker(Celery) + redis + 持久化卷
+# 用法：
+#   docker compose up --build          # 本地默认 CELERY_ENABLED=false，web 后台跑流水线
+#   CELERY_ENABLED=true docker compose up --build   # 启用 Celery 异步
+services:
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+  web:
+    build: ./backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    environment:
+      - DATABASE_URL=sqlite:////app/data/text_video.db
+      - MEDIA_ROOT=/app/media
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_ENABLED=${CELERY_ENABLED:-false}
+      - DEFAULT_PROVIDER=${DEFAULT_PROVIDER:-mock}
+      - DEFAULT_TTS=${DEFAULT_TTS:-edge}
+      - LLM_PROVIDER=${LLM_PROVIDER:-mock}
+    volumes:
+      - ./backend:/app
+      - media:/app/media
+      - dbdata:/app/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+
+  worker:
+    build: ./backend
+    command: celery -A app.celery_app.celery_app worker --loglevel=info
+    environment:
+      - DATABASE_URL=sqlite:////app/data/text_video.db
+      - MEDIA_ROOT=/app/media
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_ENABLED=true
+      - DEFAULT_PROVIDER=${DEFAULT_PROVIDER:-mock}
+      - DEFAULT_TTS=${DEFAULT_TTS:-edge}
+      - LLM_PROVIDER=${LLM_PROVIDER:-mock}
+    volumes:
+      - ./backend:/app
+      - media:/app/media
+      - dbdata:/app/data
+    depends_on:
+      - redis
+
+volumes:
+  media:
+  dbdata:
+  redisdata:
