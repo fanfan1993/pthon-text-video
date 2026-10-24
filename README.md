@@ -2,7 +2,7 @@
 
 个人用的「图文/小说转动态漫视频」后端：把小说/图文拆成角色一致的分镜，出关键帧图，做镜头运动，配音，合成 15 秒动态漫成片。Web 应用 + Python（FastAPI），本地 Docker 部署，跨集角色一致（云角色锁定），免费额度优先。
 
-> 当前阶段：**后端已完成可运行骨架（MVP 单镜闭环），前端未写**。设计详见 `设计稿1_系统架构与数据模型.md` 与 `设计稿2_15秒动态漫MVP技术方案.md`。
+> 当前阶段：**后端已完成可运行骨架（MVP 单镜闭环）
 
 ## 架构
 
@@ -17,6 +17,15 @@
 ```
 
 默认 `DEFAULT_PROVIDER=mock`：**无需任何 API Key 即可跑通整条流水线**（占位出图 + 静音/Edge 配音）。配置真实 Key 后切换云 provider，跨集角色一致由云「角色锁定」保证。
+## 页面效果
+##### 页面显示
+![screenshot](./images/1.png)
+
+![screenshot](./images/2.png)
+
+![screenshot](./images/3.png)
+
+![screenshot](./images/4.png)
 
 ## 目录
 
@@ -103,4 +112,3 @@ cd backend && pip install -r requirements.txt && pytest
 - 真实云 provider 适配器待联调；当前 mock 出图为占位图。
 - 口型（对口型）未做，MVP 为旁白/对白配音 + 嘴不动。
 - 1 分钟多镜拼接逻辑已留接口（`ffmpeg.concat`），待扩展分镜数量。
-- 后续可引入 LangGraph 做更严谨的状态机与重试/人工审核（设计稿已规划）。
