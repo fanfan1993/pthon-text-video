@@ -10,6 +10,9 @@
 .env.*
 !.env.example
 
+# ───────────── WorkBuddy 本地项目记忆（个人笔记，勿公开） ─────────────
+.workbuddy/
+
 # ───────────── Python ─────────────
 __pycache__/
 *.py[cod]
